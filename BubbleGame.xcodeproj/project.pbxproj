@@ -13,6 +13,8 @@
 		3FDFE2801BED3DE600E0B171 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FDFE27F1BED3DE600E0B171 /* Assets.xcassets */; };
 		3FDFE2831BED3DE600E0B171 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FDFE2811BED3DE600E0B171 /* LaunchScreen.storyboard */; };
 		3FDFE28E1BED3DE600E0B171 /* BubbleGameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDFE28D1BED3DE600E0B171 /* BubbleGameTests.swift */; };
+		3FDFE29F1BED52BB00E0B171 /* Bubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDFE29E1BED52BB00E0B171 /* Bubble.swift */; };
+		3FDFE2A11BED844700E0B171 /* BubblesScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDFE2A01BED844700E0B171 /* BubblesScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,8 @@
 		3FDFE2891BED3DE600E0B171 /* BubbleGameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BubbleGameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FDFE28D1BED3DE600E0B171 /* BubbleGameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleGameTests.swift; sourceTree = "<group>"; };
 		3FDFE28F1BED3DE600E0B171 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3FDFE29E1BED52BB00E0B171 /* Bubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bubble.swift; sourceTree = "<group>"; };
+		3FDFE2A01BED844700E0B171 /* BubblesScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubblesScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +83,8 @@
 			children = (
 				3FDFE2781BED3DE600E0B171 /* AppDelegate.swift */,
 				3FDFE27A1BED3DE600E0B171 /* ViewController.swift */,
+				3FDFE2A01BED844700E0B171 /* BubblesScene.swift */,
+				3FDFE29E1BED52BB00E0B171 /* Bubble.swift */,
 				3FDFE27C1BED3DE600E0B171 /* Main.storyboard */,
 				3FDFE27F1BED3DE600E0B171 /* Assets.xcassets */,
 				3FDFE2811BED3DE600E0B171 /* LaunchScreen.storyboard */,
@@ -198,6 +204,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FDFE27B1BED3DE600E0B171 /* ViewController.swift in Sources */,
+				3FDFE29F1BED52BB00E0B171 /* Bubble.swift in Sources */,
+				3FDFE2A11BED844700E0B171 /* BubblesScene.swift in Sources */,
 				3FDFE2791BED3DE600E0B171 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -327,6 +335,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = BubbleGame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jstnheo.BubbleGame;
@@ -338,6 +347,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = BubbleGame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jstnheo.BubbleGame;
