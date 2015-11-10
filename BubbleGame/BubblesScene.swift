@@ -11,17 +11,35 @@ import SpriteKit
 import CoreMotion
 
 class BubblesScene : SKScene {
-    private var startBubblesFromTop = false
     private let bubbleName = "bubble"
-    private var count = 100
     private let padding: CGFloat = 200
-    private var poppable = true
+    private var count: Int
+    private var poppable: Bool
+    private var startPosition: StartPosition
     private let motionManager = CMMotionManager()
     private var acceleration: CGFloat = 0
 
     enum StartPosition {
-        case Top
         case Bottom
+        case Top
+
+        var boolValue: Bool {
+            switch self {
+            case Bottom:
+                return false
+            case Top:
+                return true
+            }
+        }
+
+        var direction: CGFloat {
+            switch self {
+            case Bottom:
+                return 1
+            case Top:
+                return -1
+            }
+        }
     }
 
     override func didMoveToView(view: SKView) {
@@ -61,15 +79,11 @@ class BubblesScene : SKScene {
         }
     }
 
-    init(size: CGSize, bubbleCount: Int, start: StartPosition, isPoppable: Bool) {
+    init(size: CGSize, bubbleCount: Int = 100, start: StartPosition = .Bottom, isPoppable: Bool = true) {
         count = bubbleCount
+        startPosition = start
         poppable = isPoppable
-        switch start {
-        case .Top:
-            startBubblesFromTop = true
-        case .Bottom:
-            startBubblesFromTop = false
-        }
+
         super.init(size: size)
     }
 
@@ -89,48 +103,42 @@ class BubblesScene : SKScene {
         bubble.physicsBody = SKPhysicsBody(edgeLoopFromRect: frame)
 
         let startX = frame.size.width * random(min: 0, max: 1)
-        let startY = startBubblesFromTop ? size.height + padding : 0
-
-        print(size.height)
+        let startY = startPosition.boolValue ? size.height + padding : -padding
 
         bubble.position = CGPoint(x: startX, y: startY)
         addChild(bubble)
 
         bubble.runAction(
-            SKAction.followPath(createRandomPath(bubble.position), asOffset: true, orientToPath: false,
-                duration: NSTimeInterval(random(min: 4, max: 8)))
+            SKAction.followPath(createRandomPath(bubble.position), asOffset: false,
+                orientToPath: false, duration: NSTimeInterval(random(min: 4, max: 8)))
         )
     }
 
     override func update(currentTime: NSTimeInterval) {
         enumerateChildNodesWithName(bubbleName) { bubble, _ in
-            print(bubble.position)
-//            if bubble.position.y > self.size.height + self.padding || bubble.position.y < -self.padding {
-//                bubble.removeFromParent()
-//            }
+            let height = bubble.frame.size.height
+            if bubble.position.y > self.size.height + height || bubble.position.y < -height {
+                bubble.removeFromParent()
+            }
         }
     }
 
-    private func createRandomPath(startPosition: CGPoint) -> CGMutablePathRef {
+    private func createRandomPath(startingPosition: CGPoint) -> CGMutablePathRef {
         let keypathPoints = NSMutableArray()
-        let high = size.height + padding
-        let direction: CGFloat = startBubblesFromTop ? -1 : 1
 
-        var newPoint = startPosition
+        var newPoint = startingPosition
 
-        while newPoint.y <= high && newPoint.y >= -padding {
+        while newPoint.y <= size.height + padding && newPoint.y >= -padding {
             let deltaY = ((CGFloat(rand()) / CGFloat(RAND_MAX)) * 20) + 50
             let deltaX = ((CGFloat(rand()) / CGFloat(RAND_MAX)) * 60) - 30
 
-            newPoint = CGPointMake(newPoint.x + deltaX, newPoint.y + direction * deltaY)
+            newPoint = CGPointMake(newPoint.x + deltaX, newPoint.y + self.startPosition.direction * deltaY)
 
             let value = NSValue(CGPoint: newPoint)
             keypathPoints.addObject(value)
         }
 
         let mutablePath = CGPathCreateMutable()
-
-        print(keypathPoints)
 
         if keypathPoints.count > 0 {
             let firstPoint = (keypathPoints.objectAtIndex(0) as! NSValue).CGPointValue()

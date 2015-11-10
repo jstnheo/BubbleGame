@@ -21,7 +21,7 @@ class ViewController: UIViewController {
             UIColor(red: 0/255, green: 144/255, blue: 191/255, alpha: 1).CGColor]
         view.layer.insertSublayer(gradientLayer, atIndex: 0)
 
-        let scene = BubblesScene(size: bubbleGame.frame.size, bubbleCount: 1, start: .Top, isPoppable: true)
+        let scene = BubblesScene(size: bubbleGame.frame.size, bubbleCount: 15, start: .Bottom, isPoppable: true)
         let skView = bubbleGame as! SKView
         skView.showsFPS = true
         skView.showsNodeCount = true
