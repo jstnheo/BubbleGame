@@ -14,11 +14,10 @@ class BubblesScene : SKScene {
     private var startBubblesFromTop = false
     private let bubbleName = "bubble"
     private var count = 100
+    private let padding: CGFloat = 200
     private var poppable = true
     private let motionManager = CMMotionManager()
-
-    // Acceleration value from accelerometer
-    var xAcceleration: CGFloat = 0
+    private var acceleration: CGFloat = 0
 
     enum StartPosition {
         case Top
@@ -46,7 +45,7 @@ class BubblesScene : SKScene {
 
         motionManager.startAccelerometerUpdatesToQueue(currentQueue) { data, _ in
             if let acceleration = data?.acceleration {
-                self.xAcceleration = CGFloat(acceleration.x * 0.75) + (self.xAcceleration * 0.25)
+                self.acceleration = CGFloat(acceleration.x * 0.75) + (self.acceleration * 0.25)
             }
         }
     }
@@ -58,7 +57,7 @@ class BubblesScene : SKScene {
                 return
             }
 
-            bubble.physicsBody?.velocity = CGVectorMake(self.xAcceleration * 400, dy)
+            bubble.physicsBody?.velocity = CGVectorMake(self.acceleration * 400, dy)
         }
     }
 
@@ -90,7 +89,7 @@ class BubblesScene : SKScene {
         bubble.physicsBody = SKPhysicsBody(edgeLoopFromRect: frame)
 
         let startX = frame.size.width * random(min: 0, max: 1)
-        let startY = startBubblesFromTop ? size.height : 0
+        let startY = startBubblesFromTop ? size.height + padding : 0
 
         print(size.height)
 
@@ -105,26 +104,19 @@ class BubblesScene : SKScene {
 
     override func update(currentTime: NSTimeInterval) {
         enumerateChildNodesWithName(bubbleName) { bubble, _ in
-            if bubble.position.y > self.size.height + bubble.frame.height {
-                bubble.removeFromParent()
-            }
+            print(bubble.position)
+//            if bubble.position.y > self.size.height + self.padding || bubble.position.y < -self.padding {
+//                bubble.removeFromParent()
+//            }
         }
     }
 
     private func createRandomPath(startPosition: CGPoint) -> CGMutablePathRef {
         let keypathPoints = NSMutableArray()
-        let layerHeight = size.height
-        let padding: CGFloat = 200
-        let high = layerHeight + padding
-
-        print("start position: \(startPosition)")
-
+        let high = size.height + padding
         let direction: CGFloat = startBubblesFromTop ? -1 : 1
 
-        let newPointY = startPosition.y - direction * padding
-        print("new Y \(newPointY)")
-
-        var newPoint = CGPointMake(startPosition.x, startPosition.y - direction * padding)
+        var newPoint = startPosition
 
         while newPoint.y <= high && newPoint.y >= -padding {
             let deltaY = ((CGFloat(rand()) / CGFloat(RAND_MAX)) * 20) + 50
@@ -170,7 +162,7 @@ class BubblesScene : SKScene {
 
                     let scale = SKAction.scaleTo(0, duration: NSTimeInterval(0.2))
                     let remove = SKAction.removeFromParent()
-                    //                let sound = SKAction.playSoundFileNamed("", waitForCompletion: false)
+//                let sound = SKAction.playSoundFileNamed("", waitForCompletion: false)
                     let sequence = SKAction.sequence([scale, remove])
                     bubble.runAction(sequence)
                 }
